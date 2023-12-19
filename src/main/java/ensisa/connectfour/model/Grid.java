@@ -20,13 +20,20 @@ public class Grid {
     private ObservableList<Cell> grid = FXCollections.observableArrayList();
     private IntegerProperty turn = new SimpleIntegerProperty();
 
-    private static int currentPlayer = PLAYER_RED;
+    private int currentPlayer;
 
     private Property<GameState> state = new SimpleObjectProperty<>();
 
     public Grid(){
-        state.setValue(GameState.INITIALIZED);
-        turn.set(0);
+        currentPlayer = PLAYER_RED;
+        grid.clear();
+        grid.addAll(IntStream.range(0,42).mapToObj(new IntFunction<Cell>() {
+            @Override
+            public Cell apply(int value) {
+                return new Cell();
+            }
+        }).toList());
+        this.newGame();
     }
 
     //TAG - getters and setters
@@ -76,13 +83,15 @@ public class Grid {
     }
 
     public void newGame(){
-        grid.clear();
-        grid.addAll(IntStream.range(0,42).mapToObj(new IntFunction<Cell>() {
+        grid.stream().forEach(new Consumer<Cell>() {
             @Override
-            public Cell apply(int value) {
-                return new Cell();
+            public void accept(Cell cell) {
+                cell.setOwner(Cell.PLAYER_NONE);
             }
-        }).toList());
+        });
+        turn.set(0);
+        state.setValue(GameState.INITIALIZED);
+        currentPlayer = PLAYER_RED;
     }
 
     public void updateGameState(int where){
