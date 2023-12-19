@@ -1,5 +1,7 @@
 package ensisa.connectfour.model;
 
+import javafx.animation.Animation;
+import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
@@ -34,6 +36,8 @@ public class Cell {
     private IntegerProperty owner = new SimpleIntegerProperty();
     private Property<Color> color = new SimpleObjectProperty<>();
 
+    private Property<Animation> animation = new SimpleObjectProperty<>();
+
 
 
     public Cell(){
@@ -64,6 +68,18 @@ public class Cell {
 
     public void setOwner(int owner) {
         this.owner.set(owner);
+    }
+
+    public Animation getAnimation() {
+        return animation.getValue();
+    }
+
+    public Property<Animation> animationProperty() {
+        return animation;
+    }
+
+    public void triggerAnimation(){
+        animation.getValue().play();
     }
 
 }

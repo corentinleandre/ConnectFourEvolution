@@ -13,6 +13,7 @@
    <center>
       <StackPane BorderPane.alignment="CENTER">
          <children>
+            <Pane fx:id="animationPane" prefHeight="200.0" prefWidth="200.0" />
             <Pane fx:id="gamePane" prefHeight="200.0" prefWidth="200.0" />
             <BorderPane fx:id="endGameBorderPane" prefHeight="200.0" prefWidth="200.0">
                <center>

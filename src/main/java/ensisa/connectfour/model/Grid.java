@@ -68,6 +68,7 @@ public class Grid {
             return cellN;
         }else {
             grid.get(cellN).setOwner(player);
+            grid.get(cellN).triggerAnimation();
             return cellN;
         }
     }

@@ -1,12 +1,15 @@
 package ensisa.connectfour;
 
 import ensisa.connectfour.model.Cell;
+import javafx.animation.Animation;
+import javafx.animation.TranslateTransition;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.util.Duration;
 
 import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
@@ -60,6 +63,28 @@ public class ConnectFourUtils {
 
         token.fillProperty().bind(c.colorProperty());
         return token;
+    }
+
+    static Animation tokenFallTransition(Cell c, double startX, double startY, double endX, double endY){
+        Circle token = new Circle();
+        token.setRadius(Cell.PIXEL_SIZE);
+        token.setCenterX(Cell.PIXEL_MIDDLE);
+        token.setCenterY(Cell.PIXEL_MIDDLE);
+
+        token.fillProperty().bind(c.colorProperty());
+        TranslateTransition tt = new TranslateTransition();
+        tt.setNode(token);
+        tt.setDuration(Duration.seconds(2));
+
+        tt.setFromX(startX);
+        tt.setFromY(startY);
+        tt.setToX(endX);
+        tt.setToY(endY);
+
+        tt.setCycleCount(1);
+        tt.setAutoReverse(false);
+
+        return tt;
     }
 
     static Pane cellAsPane(Cell c){

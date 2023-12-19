@@ -3,6 +3,7 @@ package ensisa.connectfour;
 import ensisa.connectfour.model.Cell;
 import ensisa.connectfour.model.GameState;
 import ensisa.connectfour.model.Grid;
+import javafx.animation.Animation;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
@@ -45,6 +46,9 @@ public class MainController {
     @FXML
     private Button newGameButton;
 
+    @FXML
+    private Pane animationPane;
+
     private Grid grid;
     private int currentPlayer = Grid.PLAYER_RED;
     private RandomAI ai;
@@ -59,7 +63,7 @@ public class MainController {
     //after FXML is loaded
     public void initialize(){
         grid.newGame();
-        resetPane();
+        resetPanes();
         configureEndGamePane();
         addGrid();
         addColumnButtons();
@@ -132,8 +136,9 @@ public class MainController {
         });
     }
 
-    private void resetPane(){
+    private void resetPanes(){
         gamePane.getChildren().clear();
+        animationPane.getChildren().clear();
     }
 
     private void addGrid(){
@@ -185,6 +190,17 @@ public class MainController {
                 token.setCenterY(value/7*Cell.PIXEL_SIZE + Cell.PIXEL_MIDDLE);
                 token.setRadius(Cell.TOKEN_PIXEL_RADIUS);
                 token.fillProperty().bind(grid.getGrid().get(value).colorProperty());
+                Animation a = ConnectFourUtils.tokenFallTransition(
+                        grid.getGrid().get(value),
+                        Cell.PIXEL_MIDDLE-Cell.PIXEL_SIZE,
+                        value/7*Cell.PIXEL_SIZE + Cell.PIXEL_MIDDLE,
+                        value%7*Cell.PIXEL_SIZE +Cell.PIXEL_MIDDLE,
+                        value/7*Cell.PIXEL_SIZE + Cell.PIXEL_MIDDLE);
+                grid.getGrid().get(value).animationProperty().setValue(a);
+                animationPane.getChildren().add(token);
+                /*token.visibleProperty().bind(Bindings.createBooleanBinding(
+                        () -> grid.getGrid().get(value).getAnimation().statusProperty().getValue() == Animation.Status.STOPPED)
+                );*/
                 gamePane.getChildren().add(token);
             }
         });
