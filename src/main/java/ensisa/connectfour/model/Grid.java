@@ -89,6 +89,7 @@ public class Grid {
             @Override
             public void accept(Cell cell) {
                 cell.setOwner(Cell.PLAYER_NONE);
+                cell.visibleProperty().setValue(false);
             }
         });
         turn.set(0);

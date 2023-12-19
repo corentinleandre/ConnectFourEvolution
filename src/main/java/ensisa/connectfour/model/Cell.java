@@ -4,10 +4,9 @@ import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
 
 public class Cell {
@@ -27,7 +26,7 @@ public class Cell {
             case -1:
                 return Color.YELLOW;
             case 0:
-                return Color.WHITE;
+                return Color.GREEN;
         }
         return Color.BLACK;
     }
@@ -40,9 +39,14 @@ public class Cell {
 
 
 
+    private BooleanProperty visible = new SimpleBooleanProperty();
+
+
+
     public Cell(){
         owner.set(PLAYER_NONE);
         color.bind(Bindings.createObjectBinding(() -> getColorByOwner(owner.get()), owner));
+        visible.setValue(false);
     }
 
     public Color getColorProperty() {
@@ -78,8 +82,16 @@ public class Cell {
         return animation;
     }
 
-    public void triggerAnimation(){
-        animation.getValue().play();
+    public boolean isVisible() {
+        return visible.get();
     }
 
+    public BooleanProperty visibleProperty() {
+        return visible;
+    }
+
+    public void triggerAnimation(){
+        visible.setValue(true);
+        animation.getValue().playFromStart();
+    }
 }

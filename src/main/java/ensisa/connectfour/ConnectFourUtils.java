@@ -3,6 +3,7 @@ package ensisa.connectfour;
 import ensisa.connectfour.model.Cell;
 import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -65,21 +66,29 @@ public class ConnectFourUtils {
         return token;
     }
 
-    static Animation tokenFallTransition(Cell c, double startX, double startY, double endX, double endY){
-        Circle token = new Circle();
-        token.setRadius(Cell.PIXEL_SIZE);
-        token.setCenterX(Cell.PIXEL_MIDDLE);
-        token.setCenterY(Cell.PIXEL_MIDDLE);
-
-        token.fillProperty().bind(c.colorProperty());
+    static Animation tokenFallTransition(Node n, double startX, double startY, double endX, double endY){
         TranslateTransition tt = new TranslateTransition();
-        tt.setNode(token);
+        tt.setNode(n);
         tt.setDuration(Duration.seconds(2));
 
         tt.setFromX(startX);
         tt.setFromY(startY);
         tt.setToX(endX);
         tt.setToY(endY);
+
+        tt.setCycleCount(1);
+        tt.setAutoReverse(false);
+
+        return tt;
+    }
+
+    static Animation tokenFallTransition(Node n, double byX, double byY){
+        TranslateTransition tt = new TranslateTransition();
+        tt.setNode(n);
+        tt.setDuration(Duration.seconds(2));
+
+        tt.setByX(byX);
+        tt.setByY(byY);
 
         tt.setCycleCount(1);
         tt.setAutoReverse(false);

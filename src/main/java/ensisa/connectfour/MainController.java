@@ -56,7 +56,7 @@ public class MainController {
 
     public MainController(){
         grid = new Grid();
-        ai = new RandomAI();
+        //ai = new RandomAI();
         //ai = new MinimaxAI();
     }
 
@@ -187,21 +187,24 @@ public class MainController {
             public void accept(int value) {
                 Circle token = new Circle();
                 token.setCenterX(value%7*Cell.PIXEL_SIZE +Cell.PIXEL_MIDDLE);
-                token.setCenterY(value/7*Cell.PIXEL_SIZE + Cell.PIXEL_MIDDLE);
-                token.setRadius(Cell.TOKEN_PIXEL_RADIUS);
+                token.setCenterY((value/7*Cell.PIXEL_SIZE + Cell.PIXEL_MIDDLE) - 7*Cell.PIXEL_SIZE);
+                token.setRadius(Cell.PIXEL_SIZE/2);
                 token.fillProperty().bind(grid.getGrid().get(value).colorProperty());
-                Animation a = ConnectFourUtils.tokenFallTransition(
-                        grid.getGrid().get(value),
+                /*Animation a = ConnectFourUtils.tokenFallTransition(
+                        token,
                         Cell.PIXEL_MIDDLE-Cell.PIXEL_SIZE,
                         value/7*Cell.PIXEL_SIZE + Cell.PIXEL_MIDDLE,
                         value%7*Cell.PIXEL_SIZE +Cell.PIXEL_MIDDLE,
-                        value/7*Cell.PIXEL_SIZE + Cell.PIXEL_MIDDLE);
+                        value/7*Cell.PIXEL_SIZE + Cell.PIXEL_MIDDLE);*/
+                Animation a = ConnectFourUtils.tokenFallTransition(
+                        token,
+                        0,
+                        7*Cell.PIXEL_SIZE
+                );
                 grid.getGrid().get(value).animationProperty().setValue(a);
                 animationPane.getChildren().add(token);
-                /*token.visibleProperty().bind(Bindings.createBooleanBinding(
-                        () -> grid.getGrid().get(value).getAnimation().statusProperty().getValue() == Animation.Status.STOPPED)
-                );*/
-                gamePane.getChildren().add(token);
+                token.visibleProperty().bind(grid.getGrid().get(value).visibleProperty());
+                //gamePane.getChildren().add(token);
             }
         });
     }
