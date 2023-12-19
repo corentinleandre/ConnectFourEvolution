@@ -20,7 +20,7 @@ public class Grid {
     private ObservableList<Cell> grid = FXCollections.observableArrayList();
     private IntegerProperty turn = new SimpleIntegerProperty();
 
-    private int currentPlayer = PLAYER_RED;
+    private static int currentPlayer = PLAYER_RED;
 
     private Property<GameState> state = new SimpleObjectProperty<>();
 
@@ -139,6 +139,38 @@ public class Grid {
                 || state.getValue() == GameState.RED_WINS
                 || state.getValue() == GameState.YELLOW_WINS
                 || state.getValue() == GameState.DRAW;
+    }
+
+    public boolean canPlay(int column) {
+        return !isFinished() && grid.get(41 - (6 - column)).getOwner() == Cell.PLAYER_NONE;
+    }
+
+    //function that copy the board
+    public Grid copyGrid(Grid grid){
+        Grid new_grid = new Grid();
+        new_grid.newGame(); // Initialize the new_grid's grid list with 42 new cells
+        for(int i = 0; i < 42; i++){
+            new_grid.getGrid().get(i).setOwner(grid.getGrid().get(i).getOwner());
+        }
+        new_grid.turn.set(grid.turn.get());
+        new_grid.setCurrentPlayer(grid.getCurrentPlayer()); // Copy the currentPlayer
+        return new_grid;
+    };
+
+    public int getCell(int i, int i1) {
+        return grid.get(i*7 + i1).getOwner();
+    };
+
+    public boolean isFull() {
+        return turn.get() >= 42;
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }
 

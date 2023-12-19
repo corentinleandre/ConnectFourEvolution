@@ -1,7 +1,6 @@
 package ensisa.connectfour;
 
 import ensisa.connectfour.model.Cell;
-import ensisa.connectfour.model.GameState;
 import ensisa.connectfour.model.Grid;
 import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
@@ -9,20 +8,14 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import org.kordamp.ikonli.bootstrapicons.BootstrapIcons;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
-
-import static java.util.stream.IntStream.range;
 
 public class MainController {
     @FXML
@@ -33,9 +26,13 @@ public class MainController {
 
     private Grid grid;
     private int currentPlayer = Grid.PLAYER_RED;
+    private RandomAI ai;
+    //private MinimaxAI ai;
 
     public MainController(){
         grid = new Grid();
+        ai = new RandomAI();
+        //ai = new MinimaxAI();
     }
 
     //after FXML is loaded
@@ -100,6 +97,9 @@ public class MainController {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         grid.play(column);
+                        if(!grid.isFinished()){
+                            ai.makeMove(grid);
+                        }
                     }
                 });
                 return b;

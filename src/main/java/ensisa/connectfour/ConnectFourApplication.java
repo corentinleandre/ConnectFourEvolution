@@ -15,6 +15,7 @@ public class ConnectFourApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), Cell.PIXEL_SIZE*7, Cell.PIXEL_SIZE*6.6);
         stage.setTitle("Ultra Connect 4 Evolution");
         stage.setScene(scene);
+        stage.resizableProperty().setValue(Boolean.FALSE);
         stage.show();
     }
 
