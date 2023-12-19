@@ -126,6 +126,9 @@ public class MainController {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 grid.newGame();
+                resetPanes();
+                addGrid();
+                addTokens();
             }
         });
         endGameExitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
