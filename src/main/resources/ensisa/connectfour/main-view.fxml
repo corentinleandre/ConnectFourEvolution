@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ensisa.connectfour.MainController">
    <center>
-      <Pane fx:id="gamePane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <StackPane BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="gamePane" prefHeight="200.0" prefWidth="200.0" />
+            <BorderPane fx:id="endGameBorderPane" prefHeight="200.0" prefWidth="200.0">
+               <center>
+                  <Label fx:id="resultLabel" style="-fx-font-weight: bold; -fx-background-color: LIGHTGRAY;" text="RED WINS" textFill="YELLOW" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="37.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </Label>
+               </center>
+            </BorderPane>
+         </children>
+      </StackPane>
    </center>
    <top>
       <Pane fx:id="columnButtonPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />

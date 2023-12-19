@@ -8,10 +8,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import org.kordamp.ikonli.bootstrapicons.BootstrapIcons;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -28,6 +30,11 @@ public class MainController {
     @FXML
     private Pane gamePane;
 
+    @FXML Pane endGameBorderPane;
+
+    @FXML
+    private Label resultLabel;
+
     @FXML
     private Pane columnButtonPane;
 
@@ -42,6 +49,7 @@ public class MainController {
     public void initialize(){
         grid.newGame();
         resetPane();
+        configureEndGamePane();
         addGrid();
         addButtons();
         addTokens();
@@ -67,6 +75,38 @@ public class MainController {
             }
         }).start();
         */
+    }
+
+    private void configureEndGamePane() {
+        endGameBorderPane.visibleProperty().bind(Bindings.createBooleanBinding(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                System.out.println("MainController::configureEndGamePane()::call() : isFinished ? " + (grid.isFinished() ? "true" : "false"));
+                return grid.isFinished();
+            }
+        }, grid.stateProperty()));
+        resultLabel.textProperty().bind(Bindings.createStringBinding(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return grid.stateProperty().getValue().toString();
+            }
+        }, grid.stateProperty()));
+        resultLabel.textFillProperty().bind(Bindings.createObjectBinding(new Callable<Paint>() {
+            @Override
+            public Paint call() throws Exception {
+                switch (grid.stateProperty().getValue()){
+                    case RED_WINS -> {
+                        return Color.RED;
+                    }
+                    case YELLOW_WINS -> {
+                        return Color.YELLOW;
+                    }
+                    default -> {
+                        return Color.BLACK;
+                    }
+                }
+            }
+        }, grid.stateProperty()));
     }
 
     private void resetPane(){
