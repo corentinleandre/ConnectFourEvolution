@@ -3,6 +3,7 @@ package ensisa.connectfour;
 import ensisa.connectfour.model.Cell;
 import ensisa.connectfour.model.GameState;
 import ensisa.connectfour.model.Grid;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -38,6 +39,12 @@ public class MainController {
     @FXML
     private Pane columnButtonPane;
 
+    @FXML
+    private Button endGameExitButton;
+
+    @FXML
+    private Button newGameButton;
+
     private Grid grid;
     private int currentPlayer = Grid.PLAYER_RED;
 
@@ -51,7 +58,7 @@ public class MainController {
         resetPane();
         configureEndGamePane();
         addGrid();
-        addButtons();
+        addColumnButtons();
         addTokens();
 
         /*
@@ -107,6 +114,18 @@ public class MainController {
                 }
             }
         }, grid.stateProperty()));
+        newGameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                grid.newGame();
+            }
+        });
+        endGameExitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Platform.exit();
+            }
+        });
     }
 
     private void resetPane(){
@@ -117,7 +136,7 @@ public class MainController {
         gamePane.getChildren().add(ConnectFourUtils.gridBackground());
     }
 
-    private void addButtons(){
+    private void addColumnButtons(){
         List<Node> buttonList = IntStream.range(0, 7).mapToObj(new IntFunction<Node>() {
             Grid grid = MainController.this.grid;
 
